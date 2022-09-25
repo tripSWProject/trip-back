@@ -41,4 +41,4 @@ jobs:
         with:
           context: .
           push: true
-          tags: woneee99/back:latest
+          tags: woneee99/trip-back
