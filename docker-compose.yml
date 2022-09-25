@@ -1,6 +1,6 @@
 version: "3"
 services:
   app:
-    image: woneee99/back:latest
+    image: woneee99/trip-back
     ports:
       - '8080:8080'
