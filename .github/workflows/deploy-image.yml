@@ -54,13 +54,13 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           
-  deploy:
-    needs: build
-
-    runs-on: [ self-hosted ]
-
-    steps:
-      - name: Docker run
-        run: |
-          docker stop trip-back && docker rm trip-back && docker rmi woneee99/trip-back:main
-          docker-compose up -d
+#  deploy:
+#    needs: build
+#
+#    runs-on: [ self-hosted ]
+#
+#    steps:
+#      - name: Docker run
+#        run: |
+#          docker stop trip-back && docker rm trip-back && docker rmi woneee99/trip-back:main
+#          docker-compose up -d
