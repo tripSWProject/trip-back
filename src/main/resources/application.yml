@@ -1,6 +1,10 @@
 server:
   port: 8090
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   datasource:
     url:  jdbc:mysql://database-1.ctoigrkmyecm.ap-northeast-2.rds.amazonaws.com:3306
     username: admin
