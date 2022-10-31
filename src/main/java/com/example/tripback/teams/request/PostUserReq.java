@@ -10,4 +10,5 @@ import lombok.ToString;
 @AllArgsConstructor
 public class PostUserReq {
     private String teamName;
+    private String email;
 }

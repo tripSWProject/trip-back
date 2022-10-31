@@ -25,4 +25,9 @@ public class Members {
     @ManyToOne
     @JoinColumn(name = "userId")
     private Users users;
+
+    public Members(Teams teams, Users users){
+        this.teams = teams;
+        this.users = users;
+    }
 }
