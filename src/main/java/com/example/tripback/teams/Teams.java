@@ -24,4 +24,9 @@ public class Teams {
 
     @OneToMany(mappedBy = "memberId", fetch = FetchType.LAZY)
     private List<Members> membersList = new ArrayList<>();
+
+    public Teams(String name, String code){
+        this.teamName = name;
+        this.teamCodes = code;
+    }
 }
