@@ -6,15 +6,16 @@ spring:
       matching-strategy: ant_path_matcher
 
   datasource:
-    url:  jdbc:mysql://database-1.ctoigrkmyecm.ap-northeast-2.rds.amazonaws.com:3306
+    url:  jdbc:mysql://database-1.ctoigrkmyecm.ap-northeast-2.rds.amazonaws.com:3306/tripDB
     username: admin
     password: roottrip
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
     properties:
       hibernate:
         format_sql: true
+    generate-ddl: true
