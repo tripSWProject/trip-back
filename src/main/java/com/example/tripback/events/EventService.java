@@ -7,6 +7,9 @@ import com.example.tripback.teams.Teams;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.util.List;
+
 @Service
 public class EventService {
     private final EventRepository eventRepository;
@@ -28,4 +31,10 @@ public class EventService {
         return eventRepository.save(events).getEventId();
     }
 
+    @Transactional(readOnly = true)
+    public List<Events> getOneDayCalendar(LocalDate date, Long teamId){
+        Teams teams = teamRepository.findByTeamsId(teamId)
+                .orElseThrow(() -> new NotFoundException("Not Found Team"));
+        return eventRepository.findByTeamsAndStartDateOrEndDate(teams, date, date);
+    }
 }

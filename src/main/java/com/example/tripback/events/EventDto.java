@@ -11,6 +11,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class EventDto {
 
@@ -51,6 +53,44 @@ public class EventDto {
 
         public Events toEntity(){
             return Events.builder().startDate(startDate).endDate(endDate).startTime(startTime).endTime(endTime).title(title).build();
+        }
+    }
+
+    @Getter
+    public static class eventList{
+        private Long eventId;
+
+        @DateTimeFormat(style = "yyyy-MM-dd")
+        private LocalDate startDate;
+
+        @DateTimeFormat(style = "yyyy-MM-dd")
+        private LocalDate endDate;
+
+        @DateTimeFormat(style = "hh:mm")
+        private LocalTime startTime;
+
+        @DateTimeFormat(style = "hh:mm")
+        private LocalTime endTime;
+
+        private String title;
+
+        public eventList(Events events) {
+            this.eventId = events.getEventId();
+            this.startDate = events.getStartDate();
+            this.endDate = events.getEndDate();
+            this.startTime = events.getStartTime();
+            this.endTime = events.getEndTime();
+            this.title = events.getTitle();
+        }
+    }
+    @Getter
+    public static class responseList{
+        private List<eventList> calendarList;
+
+        public responseList(List<Events> calendarList) {
+            this.calendarList = calendarList.stream()
+                    .map(eventList::new)
+                    .collect(Collectors.toList());
         }
     }
 }
