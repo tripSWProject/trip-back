@@ -9,6 +9,10 @@ import com.example.tripback.users.Users;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -18,18 +22,19 @@ public class TeamService {
     private final MemberRepository memberRepository;
     private final UserRepository userRepository;
 
-    public String createTeam(PostUserReq postUserReq){
+    @Transactional
+    public Long createTeam(@RequestBody PostUserReq postUserReq){
         String code = RandomStringUtils.randomAlphabetic(10);
         Teams teams = new Teams(postUserReq.getTeamName(), code);
 
         Users users = userRepository.findByUserEmail(postUserReq.getEmail()).orElseThrow(() ->
                 new NotFoundException("회원을 찾지 못했습니다."));
 
-        teamRepository.save(teams);
+        Teams realTeam = teamRepository.save(teams);
         memberRepository.save(
                 new Members(teams, users)
         );
-        return code;
+        return realTeam.getTeamsId();
     }
 
 

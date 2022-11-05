@@ -8,5 +8,6 @@ import lombok.ToString;
 @Getter @Setter @ToString
 @AllArgsConstructor
 public class PostMemberReq {
-
+    String code;
+    String email;
 }

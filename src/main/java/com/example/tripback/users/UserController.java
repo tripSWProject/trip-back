@@ -17,4 +17,10 @@ public class UserController {
         System.out.println("code = " + code);
     }
 
+    @ResponseBody
+    @GetMapping("/oauth/naver")
+    public void naverCallback(@RequestParam String code){
+        userService.getKakaoAccessToken(code);
+        System.out.println("code = " + code);
+    }
 }

@@ -1,10 +1,7 @@
 package com.example.tripback.teams;
 
 import com.example.tripback.member.Members;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -23,7 +20,8 @@ public class Teams {
     private String teamCodes;
 
     @OneToMany(mappedBy = "memberId", fetch = FetchType.LAZY)
-    private List<Members> membersList = new ArrayList<>();
+    @ToString.Exclude
+    private List<Members> membersList;
 
     public Teams(String name, String code){
         this.teamName = name;

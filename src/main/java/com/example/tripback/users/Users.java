@@ -18,11 +18,12 @@ public class Users {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    private String userName;
     private String userEmail;
     private String accessToken;
 
     @OneToMany(mappedBy = "memberId", fetch = FetchType.LAZY)
-    private List<Members> membersList = new ArrayList<>();
+    private List<Members> membersList;
 
     public Users(String email, String token) {
         this.userEmail = email;
