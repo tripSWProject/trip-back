@@ -1,6 +1,7 @@
 package com.example.tripback.events;
 
 import com.example.tripback.common.exception.NotFoundException;
+import com.example.tripback.events.EventDto.PatchRequestDto;
 import com.example.tripback.events.EventDto.saveRequestDto;
 import com.example.tripback.teams.TeamRepository;
 import com.example.tripback.teams.Teams;
@@ -20,7 +21,7 @@ public class EventService {
         this.teamRepository = teamRepository;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public Long createEvent(saveRequestDto requestDto){
         Events events = requestDto.toEntity();
 
@@ -36,5 +37,24 @@ public class EventService {
         Teams teams = teamRepository.findByTeamsId(teamId)
                 .orElseThrow(() -> new NotFoundException("Not Found Team"));
         return eventRepository.findByTeamsAndStartDateOrEndDate(teams, date, date);
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Long patchEvent(PatchRequestDto patchRequestDto){
+        Events events = eventRepository.findByEventId(patchRequestDto.getEventId()).orElseThrow(
+                () -> new NotFoundException("Not Found Event")
+        );
+        events.update(patchRequestDto);
+        eventRepository.save(events);
+        return events.getEventId();
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Long deleteEvent(Long eventId){
+        Events events = eventRepository.findByEventId(eventId).orElseThrow(
+                () -> new NotFoundException("Not Found Event")
+        );
+        eventRepository.deleteByEventId(eventId);
+        return eventId;
     }
 }

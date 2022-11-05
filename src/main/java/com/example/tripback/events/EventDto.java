@@ -57,6 +57,30 @@ public class EventDto {
     }
 
     @Getter
+    public static class PatchRequestDto {
+        @NotNull
+        @Temporal(TemporalType.DATE)
+        @DateTimeFormat(style = "yyyy-MM-dd")
+        private LocalDate startDate;
+        @NotNull
+        @Temporal(TemporalType.DATE)
+        @DateTimeFormat(style = "yyyy-MM-dd")
+        private LocalDate endDate;
+
+        @Temporal(TemporalType.TIME)
+        @DateTimeFormat(style = "hh:mm")
+        private LocalTime startTime;
+        @Temporal(TemporalType.TIME)
+        @DateTimeFormat(style = "hh:mm")
+        private LocalTime endTime;
+
+        private String title;
+
+        @NotNull
+        private Long eventId;
+    }
+
+    @Getter
     public static class eventList{
         private Long eventId;
 

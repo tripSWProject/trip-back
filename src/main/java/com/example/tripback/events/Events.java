@@ -1,5 +1,6 @@
 package com.example.tripback.events;
 
+import com.example.tripback.events.EventDto.PatchRequestDto;
 import com.example.tripback.teams.Teams;
 import lombok.*;
 
@@ -25,4 +26,12 @@ public class Events {
     @ManyToOne
     @JoinColumn(name = "teamId")
     private Teams teams;
+
+    public void update(PatchRequestDto patchRequestDto){
+        this.startDate = patchRequestDto.getStartDate();
+        this.endDate = patchRequestDto.getEndDate();
+        this.startTime = patchRequestDto.getStartTime();
+        this.endTime = patchRequestDto.getEndTime();
+        this.title = patchRequestDto.getTitle();
+    }
 }
