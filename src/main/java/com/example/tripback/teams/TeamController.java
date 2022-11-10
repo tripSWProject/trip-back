@@ -15,7 +15,7 @@ import static com.example.tripback.common.utils.ApiUtils.success;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/teams")
+@RequestMapping("/api/v1/teams")
 public class TeamController {
 
     private final TeamService teamService;

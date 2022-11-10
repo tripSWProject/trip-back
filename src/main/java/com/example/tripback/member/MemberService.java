@@ -1,12 +1,11 @@
 package com.example.tripback.member;
 
 import com.example.tripback.common.exception.NotFoundException;
-import com.example.tripback.member.MemberDto.responseMemberList;
 import com.example.tripback.member.request.PostMemberReq;
 import com.example.tripback.teams.TeamRepository;
 import com.example.tripback.teams.Teams;
 import com.example.tripback.users.UserRepository;
-import com.example.tripback.users.Users;
+import com.example.tripback.users.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,9 +36,9 @@ public class MemberService {
     public String acceptMember(PostMemberReq postMemberReq){
         Teams teams = teamRepository.findByTeamCodes(postMemberReq.getCode()).orElseThrow(() ->
                 new NotFoundException("그룹이 존재하지 않습니다."));
-        Users users = userRepository.findByUserEmail(postMemberReq.getEmail()).orElseThrow(() ->
+        User user = userRepository.findByUserEmail(postMemberReq.getEmail()).orElseThrow(() ->
                 new NotFoundException("회원이 존재하지 않습니다."));
-        memberRepository.save(new Members(teams, users));
+        memberRepository.save(new Members(teams, user));
 
         return "맴버가 등록되었습니다.";
     }
@@ -53,7 +52,7 @@ public class MemberService {
         List<String> membersList = new ArrayList<>();
 
         for(Members members : teamList){
-            membersList.add(members.getUsers().getUserName());
+            membersList.add(members.getUser().getUserName());
         }
 
         return membersList;
@@ -63,9 +62,9 @@ public class MemberService {
     public Long deleteMember(Long teamId, Long userId){
         teamRepository.findByTeamsId(teamId).orElseThrow(() ->
                 new NotFoundException("그룹을 찾지 못했습니다."));
-        Users users = userRepository.findByUserId(userId).orElseThrow(() ->
-                new NotFoundException("회원이 존재하지 않습니다."));
-        memberRepository.deleteByUsers(users);
+//        User user = userRepository.findByUserId(userId).orElseThrow(() ->
+//                new NotFoundException("회원이 존재하지 않습니다."));
+//        memberRepository.deleteByUsers(user);
         return userId;
     }
 }

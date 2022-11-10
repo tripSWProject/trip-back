@@ -14,7 +14,7 @@ import java.util.List;
 import static com.example.tripback.common.utils.ApiUtils.success;
 
 @RestController
-@RequestMapping("/events")
+@RequestMapping("api/vi/events")
 public class EventController {
     private final EventService eventService;
 

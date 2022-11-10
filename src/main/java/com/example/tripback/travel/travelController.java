@@ -15,7 +15,7 @@ public class travelController {
 
     private final travelService travelService;
 
-    @GetMapping("/travels")
+    @GetMapping("/api/v1/travels")
     public ApiResult<String> getRoute(@RequestParam double sx, @RequestParam double sy, @RequestParam double ex, @RequestParam double ey) throws IOException {
         return success(travelService.getPath(sx, sy, ex, ey));
     }

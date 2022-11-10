@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.example.tripback.common.utils.ApiUtils.success;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/api/v1/members")
 public class MemberController {
 
     private final MemberService memberService;

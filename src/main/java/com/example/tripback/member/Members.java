@@ -1,7 +1,7 @@
 package com.example.tripback.member;
 
 import com.example.tripback.teams.Teams;
-import com.example.tripback.users.Users;
+import com.example.tripback.users.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,10 +24,10 @@ public class Members {
     private Teams teams;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "userId")
-    private Users users;
+    private User user;
 
-    public Members(Teams teams, Users users){
+    public Members(Teams teams, User user){
         this.teams = teams;
-        this.users = users;
+        this.user = user;
     }
 }

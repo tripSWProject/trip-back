@@ -7,20 +7,9 @@ import javax.servlet.http.HttpSession;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/user")
 public class UserController {
     private final UserService userService;
 
-    @ResponseBody
-    @GetMapping("/oauth/kakao")
-    public void kakaoCallback(@RequestParam String code){
-        userService.getKakaoAccessToken(code);
-        System.out.println("code = " + code);
-    }
 
-    @ResponseBody
-    @GetMapping("/oauth/naver")
-    public void naverCallback(@RequestParam String code){
-        userService.getKakaoAccessToken(code);
-        System.out.println("code = " + code);
-    }
 }
