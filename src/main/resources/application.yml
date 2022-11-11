@@ -2,11 +2,22 @@ server:
   port: 8090
 cloud:
   aws:
+    credentials:
+      access-key: AKIA2LYHOMJO7VQQYYNS
+      secret-key: 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
+    s3:
+      bucket: trip-project-bucket
     region:
       static: ap-northeast-2
     stack:
       auto: false
+
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
   profiles:
     active: local
     include: aws, oauth
@@ -69,7 +80,7 @@ spring:
 # cors 설정
 cors:
   allowed-origins: 'http://localhost:3000'
-  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+  allowed-methods: GET,POST,PUT,DELETE,PATCH,OPTIONS
   allowed-headers: '*'
   max-age: 3600
 
@@ -84,3 +95,4 @@ app:
   oauth2:
     authorizedRedirectUris:
       - http://localhost:3000/oauth/redirect
+

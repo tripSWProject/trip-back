@@ -2,6 +2,7 @@ package com.example.tripback.users;
 
 import com.example.tripback.common.utils.ApiResponse;
 import com.example.tripback.common.utils.ApiUtils.ApiResult;
+import com.example.tripback.users.request.PostImgReq;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,17 @@ public class UserController {
         return ApiResponse.success("user", user);
     }
 
+    @PatchMapping
+    public ApiResult<Long> modifyEmailUser(@RequestParam String email){
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return success(userService.modifyEmail(email, user.getUsername()));
+    }
 
+    @PatchMapping("/img")
+    public ApiResult<Long> modifyImgUser(@ModelAttribute PostImgReq postImgReq){
+        org.springframework.security.core.userdetails.User user = (org.springframework.security.core.userdetails.User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return success(userService.modifyProfilePic(postImgReq, user.getUsername()));
+    }
 
 
 }

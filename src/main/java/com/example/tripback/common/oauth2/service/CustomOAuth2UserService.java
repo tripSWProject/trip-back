@@ -46,21 +46,21 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
 
-        Optional<User> savedUser = userRepository.findByUserId(userInfo.getId());
+        User savedUser = userRepository.findByUserId(userInfo.getId());
 
         if (savedUser != null) {
-            if (providerType != savedUser.get().getProviderType()) {
+            if (providerType != savedUser.getProviderType()) {
                 throw new OAuthProviderMissMatchException(
                         "Looks like you're signed up with " + providerType +
-                                " account. Please use your " + savedUser.get().getProviderType() + " account to login."
+                                " account. Please use your " + savedUser.getProviderType() + " account to login."
                 );
             }
-            updateUser(savedUser.get(), userInfo);
+            updateUser(savedUser, userInfo);
         } else {
-            savedUser = Optional.of(createUser(userInfo, providerType));
+            savedUser = createUser(userInfo, providerType);
         }
 
-        return UserPrincipal.create(savedUser.get(), user.getAttributes());
+        return UserPrincipal.create(savedUser, user.getAttributes());
     }
 
     private User createUser(OAuth2UserInfo userInfo, ProviderType providerType) {
