@@ -1,24 +1,30 @@
 package com.example.tripback.events;
 
 import com.example.tripback.common.exception.NotFoundException;
+import com.example.tripback.common.utils.S3Uploader;
 import com.example.tripback.events.EventDto.PatchRequestDto;
 import com.example.tripback.events.EventDto.saveRequestDto;
 import com.example.tripback.teams.TeamRepository;
 import com.example.tripback.teams.Teams;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+
 
 @Service
 public class EventService {
     private final EventRepository eventRepository;
     private final TeamRepository teamRepository;
+    private final S3Uploader s3Uploader;
 
-    public EventService(EventRepository eventRepository, TeamRepository teamRepository) {
+    public EventService(EventRepository eventRepository, TeamRepository teamRepository, S3Uploader s3Uploader) {
         this.eventRepository = eventRepository;
         this.teamRepository = teamRepository;
+        this.s3Uploader = s3Uploader;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -29,7 +35,11 @@ public class EventService {
                 .orElseThrow(() -> new NotFoundException("Not Found Team"));
         events.setTeams(teams);
 
-        return eventRepository.save(events).getEventId();
+        eventRepository.save(events);
+
+        saveFile(requestDto.getImg(), events.getEventId());
+
+        return events.getEventId();
     }
 
     @Transactional(readOnly = true)
@@ -56,5 +66,15 @@ public class EventService {
         );
         eventRepository.deleteByEventId(eventId);
         return eventId;
+    }
+
+    private String saveFile(MultipartFile img, Long userIdx){
+        String imgPath = "events/" + userIdx;
+        try {
+            String uploadName = s3Uploader.upload(img, imgPath, img.getOriginalFilename());
+            return uploadName;
+        } catch (IOException e) {
+            throw new NotFoundException("failed to save img");
+        }
     }
 }

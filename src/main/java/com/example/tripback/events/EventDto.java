@@ -1,10 +1,13 @@
 package com.example.tripback.events;
 
+import com.example.tripback.common.utils.LocalDateFormatter;
+import com.example.tripback.common.utils.LocalTimeFormatter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,36 +17,32 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Locale.KOREA;
+
 public class EventDto {
 
-    @Getter
+    @Getter @Setter
     @NoArgsConstructor
     public static class saveRequestDto {
         @NotNull(message = "시작일은 Null 일 수 없습니다.")
-        @Temporal(TemporalType.DATE)
-        @DateTimeFormat(style = "yyyy-MM-dd")
-        private LocalDate startDate;
+        private String startDate;
 
         @NotNull(message = "종료일은 Null 일 수 없습니다.")
-        @Temporal(TemporalType.DATE)
-        @DateTimeFormat(style = "yyyy-MM-dd")
-        private LocalDate endDate;
+        private String endDate;
 
-        @Temporal(TemporalType.TIME)
-        @DateTimeFormat(style = "hh:mm")
-        private LocalTime startTime;
-        @Temporal(TemporalType.TIME)
-        @DateTimeFormat(style = "hh:mm")
-        private LocalTime endTime;
+        private String startTime;
+        private String endTime;
 
         @NotNull(message = "제목은 Null 일 수 없습니다.")
         private String title;
+
+        private MultipartFile img;
 
         @NotNull
         private Long teamId;
 
         @Builder
-        public saveRequestDto(LocalDate startDate, LocalDate endDate, LocalTime startTime, LocalTime endTime, String title) {
+        public saveRequestDto(String startDate, String endDate, String startTime, String endTime, String title) {
             this.startDate = startDate;
             this.endDate = endDate;
             this.startTime = startTime;
@@ -52,7 +51,14 @@ public class EventDto {
         }
 
         public Events toEntity(){
-            return Events.builder().startDate(startDate).endDate(endDate).startTime(startTime).endTime(endTime).title(title).build();
+            LocalDateFormatter localDateFormatter = new LocalDateFormatter();
+            LocalTimeFormatter localTimeFormatter = new LocalTimeFormatter();
+            return Events.builder()
+                    .startDate(localDateFormatter.parse(startDate, KOREA))
+                    .endDate(localDateFormatter.parse(endDate, KOREA))
+                    .startTime(localTimeFormatter.parse(startTime, KOREA))
+                    .endTime(localTimeFormatter.parse(endTime, KOREA))
+                    .title(title).build();
         }
     }
 
@@ -75,6 +81,7 @@ public class EventDto {
         private LocalTime endTime;
 
         private String title;
+        private MultipartFile img;
 
         @NotNull
         private Long eventId;

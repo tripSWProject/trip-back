@@ -5,6 +5,7 @@ import com.example.tripback.events.EventDto.PatchRequestDto;
 import com.example.tripback.events.EventDto.responseList;
 import com.example.tripback.events.EventDto.saveRequestDto;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -14,7 +15,7 @@ import java.util.List;
 import static com.example.tripback.common.utils.ApiUtils.success;
 
 @RestController
-@RequestMapping("api/vi/events")
+@RequestMapping("/api/v1/events")
 public class EventController {
     private final EventService eventService;
 
@@ -22,8 +23,8 @@ public class EventController {
         this.eventService = eventService;
     }
 
-    @PostMapping
-    public ApiResult<Long> createEvent(@Valid @RequestBody saveRequestDto saveRequestDto){
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ApiResult<Long> createEvent(@Valid @ModelAttribute saveRequestDto saveRequestDto){
         return success(eventService.createEvent(saveRequestDto));
     }
 

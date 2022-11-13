@@ -33,8 +33,6 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public Long modifyProfilePic(PostImgReq postImgReq, String userId){
         User user = userRepository.findByUserId(userId);
-        System.out.println("postImgReq.getFileName() = " + postImgReq.getFileName());
-        System.out.println("postImgReq = " + postImgReq.getImg());
         String url = saveFile(postImgReq.getImg(), postImgReq.getFileName(), user.getUserSeq());
         user.setProfileImageUrl(url);
         return user.getUserSeq();
