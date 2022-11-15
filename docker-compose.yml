@@ -3,4 +3,4 @@ services:
   app:
     image: woneee99/trip-back:main
     ports:
-      - '8080:8080'
+      - '8080:8090'
