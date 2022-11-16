@@ -31,9 +31,6 @@ public class EventDto {
         @NotNull(message = "종료일은 Null 일 수 없습니다.")
         private String endDate;
 
-        private String startTime;
-        private String endTime;
-
         @NotNull(message = "제목은 Null 일 수 없습니다.")
         private String title;
 
@@ -43,22 +40,17 @@ public class EventDto {
         private Long teamId;
 
         @Builder
-        public saveRequestDto(String startDate, String endDate, String startTime, String endTime, String title) {
+        public saveRequestDto(String startDate, String endDate, String title) {
             this.startDate = startDate;
             this.endDate = endDate;
-            this.startTime = startTime;
-            this.endTime = endTime;
             this.title = title;
         }
 
         public Events toEntity(){
             LocalDateFormatter localDateFormatter = new LocalDateFormatter();
-            LocalTimeFormatter localTimeFormatter = new LocalTimeFormatter();
             return Events.builder()
                     .startDate(localDateFormatter.parse(startDate, KOREA))
                     .endDate(localDateFormatter.parse(endDate, KOREA))
-                    .startTime(localTimeFormatter.parse(startTime, KOREA))
-                    .endTime(localTimeFormatter.parse(endTime, KOREA))
                     .title(title).build();
         }
     }
@@ -73,13 +65,6 @@ public class EventDto {
         @Temporal(TemporalType.DATE)
         @DateTimeFormat(style = "yyyy-MM-dd")
         private LocalDate endDate;
-
-        @Temporal(TemporalType.TIME)
-        @DateTimeFormat(style = "hh:mm")
-        private LocalTime startTime;
-        @Temporal(TemporalType.TIME)
-        @DateTimeFormat(style = "hh:mm")
-        private LocalTime endTime;
 
         private String title;
         private MultipartFile img;
@@ -98,20 +83,12 @@ public class EventDto {
         @DateTimeFormat(style = "yyyy-MM-dd")
         private LocalDate endDate;
 
-        @DateTimeFormat(style = "hh:mm")
-        private LocalTime startTime;
-
-        @DateTimeFormat(style = "hh:mm")
-        private LocalTime endTime;
-
         private String title;
 
         public eventList(Events events) {
             this.eventId = events.getEventId();
             this.startDate = events.getStartDate();
             this.endDate = events.getEndDate();
-            this.startTime = events.getStartTime();
-            this.endTime = events.getEndTime();
             this.title = events.getTitle();
         }
     }

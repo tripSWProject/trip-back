@@ -18,8 +18,7 @@ public class Events {
 
     private LocalDate startDate;
     private LocalDate endDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
+
     private String title;
 
     @ManyToOne
@@ -29,8 +28,6 @@ public class Events {
     public void update(PatchRequestDto patchRequestDto){
         this.startDate = patchRequestDto.getStartDate();
         this.endDate = patchRequestDto.getEndDate();
-        this.startTime = patchRequestDto.getStartTime();
-        this.endTime = patchRequestDto.getEndTime();
         this.title = patchRequestDto.getTitle();
     }
 }
