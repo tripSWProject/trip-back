@@ -26,4 +26,10 @@ public class LocationController {
     private ApiResult<Long> saveLocation(@Valid @RequestBody SaveLocation saveLocation){
         return success(locationService.createLocation(saveLocation));
     }
+
+    @Operation(summary = "장소 삭제")
+    @DeleteMapping
+    private ApiResult<Long> deleteLocation(@RequestParam Long locationId){
+        return success(locationService.deleteLocation(locationId));
+    }
 }

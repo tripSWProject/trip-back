@@ -30,4 +30,13 @@ public class LocationService {
         locationRepository.save(location);
         return location.getLocationId();
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Long deleteLocation(Long locationId){
+        locationRepository.findByLocationId(locationId).orElseThrow(
+                () -> new NotFoundException("Not Found Location")
+        );
+        locationRepository.deleteByLocationId(locationId);
+        return locationId;
+    }
 }
