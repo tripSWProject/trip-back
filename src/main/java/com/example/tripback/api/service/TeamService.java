@@ -61,9 +61,11 @@ public class TeamService {
         for(Members members : findUser){
             Teams teams = members.getTeams();
             List<Members> byTeams = memberRepository.findByTeams(teams);
+
             teams.setMembersList(byTeams);
             teamList.add(teams);
         }
+        System.out.println("teamList = " + teamList);
         return teamList;
     }
 

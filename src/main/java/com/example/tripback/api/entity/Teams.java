@@ -1,6 +1,7 @@
 package com.example.tripback.api.entity;
 
 import com.example.tripback.api.entity.Members;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -26,6 +27,7 @@ public class Teams {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "memberId", fetch = FetchType.LAZY)
     @ToString.Exclude
     private List<Members> membersList;
