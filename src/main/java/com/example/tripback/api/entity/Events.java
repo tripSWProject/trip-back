@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Getter @Setter @Builder
@@ -18,19 +19,19 @@ public class Events {
 
     private LocalDate startDate;
     private LocalDate endDate;
-    private LocalTime startTime;
-    private LocalTime endTime;
+
     private String title;
 
     @ManyToOne
     @JoinColumn(name = "teamId")
     private Teams teams;
 
+    @OneToMany(mappedBy = "locationId", fetch = FetchType.LAZY)
+    private List<Locations> locationList;
+
     public void update(PatchRequestDto patchRequestDto){
         this.startDate = patchRequestDto.getStartDate();
         this.endDate = patchRequestDto.getEndDate();
-        this.startTime = patchRequestDto.getStartTime();
-        this.endTime = patchRequestDto.getEndTime();
         this.title = patchRequestDto.getTitle();
     }
 }

@@ -2,6 +2,7 @@ package com.example.tripback.api.entity;
 
 import com.example.tripback.oauth2.entity.ProviderType;
 import com.example.tripback.oauth2.entity.RoleType;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,7 +37,7 @@ public class User {
     private RoleType roleType;
 
     private LocalDateTime createdAt;
-
+    @JsonManagedReference
     @OneToMany(mappedBy = "memberId", fetch = FetchType.LAZY)
     private List<Members> membersList;
 
