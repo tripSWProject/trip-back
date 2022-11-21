@@ -1,6 +1,7 @@
 package com.example.tripback.api.controller;
 
 import com.example.tripback.api.dto.LocationDto;
+import com.example.tripback.api.dto.LocationDto.GetResponseLocation;
 import com.example.tripback.api.dto.LocationDto.SaveLocation;
 import com.example.tripback.api.service.LocationService;
 import com.example.tripback.common.utils.ApiUtils;
@@ -31,5 +32,11 @@ public class LocationController {
     @DeleteMapping
     private ApiResult<Long> deleteLocation(@RequestParam Long locationId){
         return success(locationService.deleteLocation(locationId));
+    }
+
+    @Operation(summary = "장소 조회")
+    @GetMapping
+    private ApiResult<GetResponseLocation> getLocation(@RequestParam Long eventId, @RequestParam String planName){
+        return success(new GetResponseLocation(locationService.getLocation(eventId, planName)));
     }
 }

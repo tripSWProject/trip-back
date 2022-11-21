@@ -1,7 +1,6 @@
 package com.example.tripback.api.dto;
 
 import com.example.tripback.api.entity.Locations;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +11,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class LocationDto {
 
@@ -41,6 +42,37 @@ public class LocationDto {
                     .note(note)
                     .planName(planName)
                     .build();
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class SimpleLocation{
+        private Long locationId;
+        private LocalDate date;
+        private String locations;
+        private LocalTime time;
+        private String note;
+        private String planName;
+
+        public SimpleLocation(Locations locations) {
+            this.locationId = locations.getLocationId();
+            this.date = locations.getDate();
+            this.locations = locations.getLocations();
+            this.time = locations.getTime();
+            this.note = locations.getNote();
+            this.planName = locations.getPlanName();
+        }
+    }
+    @Setter
+    @Getter
+    public static class GetResponseLocation{
+        private final List<SimpleLocation> locationsList;
+
+        public GetResponseLocation(List<Locations> locationsList) {
+            this.locationsList = locationsList.stream()
+                    .map(SimpleLocation::new)
+                    .collect(Collectors.toList());
         }
     }
 }
