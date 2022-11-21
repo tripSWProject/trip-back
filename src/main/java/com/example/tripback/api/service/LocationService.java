@@ -9,6 +9,8 @@ import com.example.tripback.common.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class LocationService {
     private final LocationRepository locationRepository;
@@ -38,5 +40,14 @@ public class LocationService {
         );
         locationRepository.deleteByLocationId(locationId);
         return locationId;
+    }
+
+    @Transactional(readOnly = true)
+    public List<Locations> getLocation(Long eventId, String planName){
+        Events events = eventRepository.findByEventId(eventId).orElseThrow(
+                () -> new NotFoundException("Not Found Event")
+        );
+
+        return locationRepository.findByEventsAndPlanName(events, planName);
     }
 }

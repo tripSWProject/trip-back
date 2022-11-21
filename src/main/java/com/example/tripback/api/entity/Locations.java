@@ -21,6 +21,7 @@ public class Locations {
     private String locations;
     private LocalTime time;
     private String note;
+    private String planName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "eventId")
