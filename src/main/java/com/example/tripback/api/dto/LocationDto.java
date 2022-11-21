@@ -29,6 +29,8 @@ public class LocationDto {
         @DateTimeFormat(style = "hh:mm")
         private LocalTime time;
         private String note;
+        private String planName;
+
         private Long eventId;
 
         public Locations toEntity(){
@@ -37,6 +39,7 @@ public class LocationDto {
                     .locations(locations)
                     .time(time)
                     .note(note)
+                    .planName(planName)
                     .build();
         }
     }
